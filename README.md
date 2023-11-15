@@ -1,3 +1,14 @@
+We used [Bunjs](https://bun.sh/)
+
+```
+bun run dev
+```
+
+```
+bun test
+```
+
+
 # Task Manager kata
 
 *Goal: practice TDD and clean architecture by implementing a task manager*
