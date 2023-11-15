@@ -27,4 +27,8 @@ export class TaskManager {
         })
         this.id = this.id + 1
     }
+    
+    remove(id: number) {
+        this.todos = this.todos.filter((todo) => todo.id !== id)
+    }
 }

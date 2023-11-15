@@ -45,3 +45,40 @@ describe("add operation", () => {
         }])
     })
 })
+
+describe('remove operation', () => {
+    let MyTaskManager: TaskManager;
+    beforeEach(() => {
+        MyTaskManager = new TaskManager();
+        MyTaskManager.todos = [{
+            id: 1,
+            description: "Learn Python",
+            status: "to do",
+        },
+        {
+            id: 2,
+            description: "Learn C#",
+            status: "to do"
+        }] 
+    })
+    test("remove 1", () => {
+        MyTaskManager.remove(1)
+        expect(MyTaskManager.todos).toEqual([
+        {
+            id: 2,
+            description: "Learn C#",
+            status: "to do"
+        }])
+    })
+    test("remove multiple", () => {
+        [1, 2].forEach(id => {
+            MyTaskManager.remove(id)
+        })
+        expect(MyTaskManager.todos).toEqual([])
+    })
+    test("remove on empty list", () => {
+        MyTaskManager.todos = []
+        MyTaskManager.remove(1)
+        expect(MyTaskManager.todos).toEqual([]);
+    })
+})
