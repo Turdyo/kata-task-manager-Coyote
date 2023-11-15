@@ -29,6 +29,16 @@ export class TaskManager {
     }
     
     remove(id: number) {
-        this.todos = this.todos.filter((todo) => todo.id !== id)
+        this.todos = this.todos.filter(todo => todo.id !== id)
+    }
+
+    markAsDone(id: number) {
+        this.todos = this.todos.map(todo => {
+            if (todo.id !== id) return todo
+            return {
+                ...todo,
+                status: "done"
+            }
+        })
     }
 }

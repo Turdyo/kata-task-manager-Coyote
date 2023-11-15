@@ -1,4 +1,4 @@
-import { describe, test, expect, beforeEach } from "bun:test";
+import { describe, test, expect, beforeEach, beforeAll } from "bun:test";
 import { TaskManager, parse } from "..";
 
 describe("parse", () => {
@@ -80,5 +80,42 @@ describe('remove operation', () => {
         MyTaskManager.todos = []
         MyTaskManager.remove(1)
         expect(MyTaskManager.todos).toEqual([]);
+    })
+})
+
+describe('markAsDone', () => {
+
+    let MyTaskManager: TaskManager;
+
+    beforeAll(() => {
+        MyTaskManager = new TaskManager();
+        MyTaskManager.todos = [{
+            id: 1,
+            description: "Learn Python",
+            status: "to do"
+        },
+        {
+            id: 2,
+            description: "Learn C#",
+            status: "done"
+        }]
+    })
+
+    test('Change one task status', () => {
+        MyTaskManager.markAsDone(1);
+        expect(MyTaskManager.todos.at(0)).toEqual({
+            id: 1,
+            description: "Learn Python",
+            status: "done"
+        })
+    })
+
+    test('Set a done task to done again', () => {
+        MyTaskManager.markAsDone(2);
+        expect(MyTaskManager.todos.at(1)).toEqual({
+            id: 2,
+            description: "Learn C#",
+            status: "done"
+        })
     })
 })
