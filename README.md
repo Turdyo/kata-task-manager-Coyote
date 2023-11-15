@@ -1,6 +1,10 @@
 We used [Bunjs](https://bun.sh/)
 
 ```
+bun install
+```
+
+```
 bun run dev
 ```
 
