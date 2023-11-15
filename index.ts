@@ -1,54 +1,43 @@
-import { Database } from "bun:sqlite"
+import { TaskManager } from "./Taskmanager"
+import { Input, Operations } from "./type"
 
-const db = new Database("db.sqlite")
+const MyTaskManager = new TaskManager()
 
-type Todo = {
-    id: number
-    description: string
-    status: "done" | "to do"
-}
-
-export function parse(input: string): { operation: string, argument?: string } {
-    const operation = input.at(0) as string
-    if (input.length === 1) return { operation }
+export function parse(input: string): Input {
+    const operation = input.at(0)
+    if (operation === "q") return { operation }
     const argument = input.slice(2)
-    return { operation, argument }
+    return {
+        operation: operation as Operations,
+        argument
+    }
 }
 
-export class TaskManager {
-    todos: Todo[] = []
-    id: number = 1
-
-    addTodo(description: string) {
-        this.todos.push({
-            description,
-            id: this.id,
-            status: "to do"
-        })
-        this.id = this.id + 1
+export function selectOperation(input: Input) {
+    if (input.operation === "+") {
+        MyTaskManager.addTask(input.argument)
+    } else if (input.operation === "-") {
+        MyTaskManager.remove(parseInt(input.argument))
+    } else if (input.operation === "x") {
+        MyTaskManager.markAsDone(parseInt(input.argument))
+    } else if (input.operation === "o") {
+        MyTaskManager.markAsTodo(parseInt(input.argument))
+    } else if (input.operation === "q") {
+        process.exit()
     }
+}
+
+async function main() {
+    MyTaskManager.tasks.forEach(task => console.write(`${task.id} [${task.status === "done" ? "X" : " "}] ${task.description}`))
+    const promptMessage = "Enter prompt (+, -, o, x, q) : "
+    process.stdout.write(promptMessage)
     
-    remove(id: number) {
-        this.todos = this.todos.filter(todo => todo.id !== id)
-    }
-
-    markAsDone(id: number) {
-        this.todos = this.todos.map(todo => {
-            if (todo.id !== id) return todo
-            return {
-                ...todo,
-                status: "done"
-            }
-        })
-    }
-
-    markAsTodo(id: number) {
-        this.todos = this.todos.map(todo => {
-            if (todo.id !== id) return todo
-            return {
-                ...todo,
-                status: "to do"
-            }
-        })
+    for await (const line of console) {
+        const parsedInput = parse(line)
+        selectOperation(parsedInput)
+        MyTaskManager.tasks.forEach(task => console.write(`${task.id} [${task.status === "done" ? "X" : " "}] ${task.description}\n`))
+        process.stdout.write(promptMessage)
     }
 }
+
+main()

@@ -1,39 +1,23 @@
 import { describe, test, expect, beforeEach, beforeAll } from "bun:test";
-import { TaskManager, parse } from "..";
-
-describe("parse", () => {
-    test("case '+'", () => {
-        const result = parse("+ New todo")
-        expect(result).toEqual({
-            operation: "+",
-            argument: "New todo"
-        })
-    })
-    test("case 'q'", () => {
-        const result = parse("q")
-        expect(result).toEqual({
-            operation: "q"
-        })
-    })
-})
+import { TaskManager } from "../Taskmanager";
 
 describe("add operation", () => {
     let MyTaskManager: TaskManager
     beforeEach(() => {
         MyTaskManager = new TaskManager()
     })
-    test("normal case", () => {
-        MyTaskManager.addTodo("Learn Java")
-        expect(MyTaskManager.todos).toEqual([{
+    test("Add one task", () => {
+        MyTaskManager.addTask("Learn Java")
+        expect(MyTaskManager.tasks).toEqual([{
             id: 1,
             description: "Learn Java",
             status: "to do"
         }])
     })
-    test("multiple todos", () => {
-        const todos = ["Learn Python", "Learn C#"]
-        todos.forEach(todo => MyTaskManager.addTodo(todo))
-        expect(MyTaskManager.todos).toEqual([{
+    test("Add multiple operations", () => {
+        const tasks = ["Learn Python", "Learn C#"]
+        tasks.forEach(todo => MyTaskManager.addTask(todo))
+        expect(MyTaskManager.tasks).toEqual([{
             id: 1,
             description: "Learn Python",
             status: "to do"
@@ -50,7 +34,7 @@ describe('remove operation', () => {
     let MyTaskManager: TaskManager;
     beforeEach(() => {
         MyTaskManager = new TaskManager();
-        MyTaskManager.todos = [{
+        MyTaskManager.tasks = [{
             id: 1,
             description: "Learn Python",
             status: "to do",
@@ -63,7 +47,7 @@ describe('remove operation', () => {
     })
     test("remove 1", () => {
         MyTaskManager.remove(1)
-        expect(MyTaskManager.todos).toEqual([
+        expect(MyTaskManager.tasks).toEqual([
         {
             id: 2,
             description: "Learn C#",
@@ -74,12 +58,12 @@ describe('remove operation', () => {
         [1, 2].forEach(id => {
             MyTaskManager.remove(id)
         })
-        expect(MyTaskManager.todos).toEqual([])
+        expect(MyTaskManager.tasks).toEqual([])
     })
     test("remove on empty list", () => {
-        MyTaskManager.todos = []
+        MyTaskManager.tasks = []
         MyTaskManager.remove(1)
-        expect(MyTaskManager.todos).toEqual([]);
+        expect(MyTaskManager.tasks).toEqual([]);
     })
 })
 
@@ -89,7 +73,7 @@ describe('markAsDone', () => {
 
     beforeAll(() => {
         MyTaskManager = new TaskManager();
-        MyTaskManager.todos = [{
+        MyTaskManager.tasks = [{
             id: 1,
             description: "Learn Python",
             status: "to do"
@@ -103,7 +87,7 @@ describe('markAsDone', () => {
 
     test('Change one task status', () => {
         MyTaskManager.markAsDone(1);
-        expect(MyTaskManager.todos.at(0)).toEqual({
+        expect(MyTaskManager.tasks.at(0)).toEqual({
             id: 1,
             description: "Learn Python",
             status: "done"
@@ -112,7 +96,7 @@ describe('markAsDone', () => {
 
     test('Set a done task to done again', () => {
         MyTaskManager.markAsDone(2);
-        expect(MyTaskManager.todos.at(1)).toEqual({
+        expect(MyTaskManager.tasks.at(1)).toEqual({
             id: 2,
             description: "Learn C#",
             status: "done"
@@ -126,7 +110,7 @@ describe('markAsTodo', () => {
 
     beforeAll(() => {
         MyTaskManager = new TaskManager();
-        MyTaskManager.todos = [{
+        MyTaskManager.tasks = [{
             id: 1,
             description: "Learn Python",
             status: "to do"
@@ -140,7 +124,7 @@ describe('markAsTodo', () => {
 
     test('Change one task status', () => {
         MyTaskManager.markAsTodo(2);
-        expect(MyTaskManager.todos.at(1)).toEqual({
+        expect(MyTaskManager.tasks.at(1)).toEqual({
             id: 2,
             description: "Learn C#",
             status: "to do"
@@ -149,7 +133,7 @@ describe('markAsTodo', () => {
 
     test('Set a "to do" task to "to do" again', () => {
         MyTaskManager.markAsTodo(1);
-        expect(MyTaskManager.todos.at(0)).toEqual({
+        expect(MyTaskManager.tasks.at(0)).toEqual({
             id: 1,
             description: "Learn Python",
             status: "to do"
