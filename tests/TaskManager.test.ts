@@ -1,5 +1,5 @@
 import { describe, test, expect, beforeEach, beforeAll } from "bun:test";
-import { TaskManager } from "../Taskmanager";
+import { TaskManager } from "../src/Taskmanager";
 
 describe("add operation", () => {
     let MyTaskManager: TaskManager

@@ -1,6 +1,6 @@
 import { describe, test, expect, spyOn } from "bun:test";
-import { parse, selectOperation } from "..";
-import { TaskManager } from "../Taskmanager";
+import { parse, selectOperation } from "../src";
+import { TaskManager } from "../src/Taskmanager";
 
 describe("parse", () => {
     test("case '+'", () => {

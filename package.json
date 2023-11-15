@@ -9,6 +9,6 @@
     "typescript": "^5.0.0"
   },
   "scripts": {
-    "dev": "bun index.ts"
+    "dev": "bun src/index.ts"
   }
 }
