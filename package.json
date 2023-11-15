@@ -1,0 +1,14 @@
+{
+  "name": "kata-task-manager-coyote",
+  "module": "index.ts",
+  "type": "module",
+  "devDependencies": {
+    "bun-types": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0"
+  },
+  "scripts": {
+    "dev": "bun index.ts"
+  }
+}
