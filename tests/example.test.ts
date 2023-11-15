@@ -119,3 +119,40 @@ describe('markAsDone', () => {
         })
     })
 })
+
+describe('markAsTodo', () => {
+
+    let MyTaskManager: TaskManager;
+
+    beforeAll(() => {
+        MyTaskManager = new TaskManager();
+        MyTaskManager.todos = [{
+            id: 1,
+            description: "Learn Python",
+            status: "to do"
+        },
+        {
+            id: 2,
+            description: "Learn C#",
+            status: "done"
+        }]
+    })
+
+    test('Change one task status', () => {
+        MyTaskManager.markAsTodo(2);
+        expect(MyTaskManager.todos.at(1)).toEqual({
+            id: 2,
+            description: "Learn C#",
+            status: "to do"
+        })
+    })
+
+    test('Set a "to do" task to "to do" again', () => {
+        MyTaskManager.markAsTodo(1);
+        expect(MyTaskManager.todos.at(0)).toEqual({
+            id: 1,
+            description: "Learn Python",
+            status: "to do"
+        })
+    })
+})

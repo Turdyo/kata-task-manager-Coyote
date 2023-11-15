@@ -41,4 +41,14 @@ export class TaskManager {
             }
         })
     }
+
+    markAsTodo(id: number) {
+        this.todos = this.todos.map(todo => {
+            if (todo.id !== id) return todo
+            return {
+                ...todo,
+                status: "to do"
+            }
+        })
+    }
 }
